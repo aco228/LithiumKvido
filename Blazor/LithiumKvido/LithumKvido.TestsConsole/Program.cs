@@ -31,38 +31,12 @@ namespace LithumKvido.TestsConsole
             // var response = await service.Authentificate();
             
             InvoicesService service = new InvoicesService(likvidoConf);
-            service.AuthenticateWith(API_KEY);
-            // var res = await service.Create(new InvoiceCreateModel()
-            // {
-            //     Date = DateTime.Now,
-            //     CampaignInitialRequest = Schemas.CampaignType.Invoice,
-            //     Currency = "EUR",
-            //     DueDate = DateTime.Now.AddDays(1),
-            //     Debtor = new InvoiceCreateModel.DebtorModel()
-            //     {
-            //         Address = "address",
-            //         City = "city",
-            //         Email = "email",
-            //         Phone = "phone",
-            //         DebtorType = Schemas.LegalEntityType.Private,
-            //         FirstName = "firstName",
-            //         LastName = "lastName",
-            //         ZipCode = "zipi"
-            //     },
-            //     Lines = new List<InvoiceCreateModel.LineModel>()
-            //     {
-            //         new InvoiceCreateModel.LineModel()
-            //         {
-            //             Description = "descriptio",
-            //             Quantity = 15,
-            //             DiscountType = Schemas.DiscountType.Cash,
-            //             DiscountValue = 15,
-            //             VatRate = 15,
-            //             UnitNetPrice = 15
-            //         }
-            //     }
-            // });
-            //var res = await service.GetAll();
+            // service.AuthenticateWith(API_KEY);
+            // var res = await service.GetAll();
+            
+            CreditorsService cservice = new CreditorsService(likvidoConf);
+            cservice.AuthenticateWith(API_KEY);
+            var creditor = await cservice.Get(3157);
 
             
             Console.WriteLine("Hello World!");

@@ -18,8 +18,8 @@
         <e p="Likvido.API.csproj" t="IncludeRecursive" />
         <e p="Models" t="Include">
           <e p="AuthentificationResponse.cs" t="Include" />
+          <e p="CreditorResponseModel.cs" t="Include" />
           <e p="CreditorsCreateModel.cs" t="Include" />
-          <e p="CreditorsResponse.cs" t="Include" />
           <e p="ErrorModel.cs" t="Include" />
           <e p="InvoiceCreateModel.cs" t="Include" />
           <e p="InvoiceFilterModel.cs" t="Include" />
@@ -81,6 +81,7 @@
         </e>
         <e p="Pages" t="Include">
           <e p="_Host.cshtml" t="Include" />
+          <e p="Creditor.razor" t="Include" />
           <e p="Index.razor" t="Include" />
           <e p="Invoice.razor" t="Include" />
           <e p="NewInvoice.razor" t="Include" />

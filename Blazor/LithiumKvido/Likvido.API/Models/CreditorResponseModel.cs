@@ -3,7 +3,19 @@ using Newtonsoft.Json;
 
 namespace Likvido.API.Models.Responses
 {
-    public class CreditorsResponse
+
+    /// <summary>
+    /// Proxy class 
+    /// </summary>
+    public class CreditorResponse : ResponseBase<CreditorResponseModel>
+    {
+        
+    }
+    
+    /// <summary>
+    /// Model class
+    /// </summary>
+    public class CreditorResponseModel
     {
         [JsonProperty("type")]
         public string Type { get; set; } = default;
@@ -125,7 +137,7 @@ namespace Likvido.API.Models.Responses
             public string OnboardingAccounting_Chosen { get;set; } = default;
 
             [JsonProperty("settings_Payout_Collection_PrincipalPercentage")]
-            public int SettingsPayout_Collection_PrincipalPercentage { get;set; } = default;
+            public double SettingsPayout_Collection_PrincipalPercentage { get;set; } = default;
 
             [JsonProperty("settings_Payout_DefaultLabel")]
             public string SettingsPayout_DefaultLabel { get;set; } = default;
@@ -137,7 +149,7 @@ namespace Likvido.API.Models.Responses
             public DateTime SettingsAutoStartFromDate { get;set; } = default;
 
             [JsonProperty("settings_AutoStartMinimumAmount")]
-            public int SettingsAutoStartMinimumAmount { get;set; } = default;
+            public double SettingsAutoStartMinimumAmount { get;set; } = default;
 
             [JsonProperty("creditorLogoUr")]
             public string CreditorLogoUr { get;set; } = default;

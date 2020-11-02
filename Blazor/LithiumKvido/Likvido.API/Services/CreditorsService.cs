@@ -14,14 +14,14 @@ namespace Likvido.API.Services
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>
-        public Task<ResponseBase<CreditorsResponse>> Get(int id);
+        public Task<CreditorResponse> Get(int id);
         
         /// <summary>
         /// Create new Creditor
         /// </summary>
         /// <param name="creditor"></param>
         /// <returns></returns>
-        public Task<ResponseBase<CreditorsResponse>> CreateCreditor(CreditorsCreateModel creditor);
+        public Task<CreditorResponse> CreateCreditor(CreditorsCreateModel creditor);
     }
     
     public class CreditorsService : LikvidoServiceBase<RequestModel>, ICreditorsService
@@ -33,17 +33,17 @@ namespace Likvido.API.Services
         {
         }
 
-        public Task<ResponseBase<CreditorsResponse>> Get(int id)
+        public Task<CreditorResponse> Get(int id)
         {
             RequestModel request = new RequestModel()
             {
                 _Query = $"/{id}"
             };
-            return this.GetRequest<CreditorsResponse>(request);
+            return this.GetRequest<CreditorResponse, CreditorResponseModel>(request);
         }
 
-        public Task<ResponseBase<CreditorsResponse>> CreateCreditor(CreditorsCreateModel creditor)
-            => this.PostRequest<CreditorsResponse>(creditor);
+        public Task<CreditorResponse> CreateCreditor(CreditorsCreateModel creditor)
+            => this.PostRequest<CreditorResponse, CreditorResponseModel>(creditor);
         
     }
 }

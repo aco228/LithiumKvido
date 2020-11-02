@@ -31,11 +31,7 @@
 
                             @if (_isLoading)
                             {
-                                <div class="indexMessageBox">
-                                    <div class="messageHolder">
-                                        <strong>Loading, please wait..</strong>
-                                    </div>
-                                </div>
+                                <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
                             }
                             else if (this._invoiceData.IsSuccess == false)
                             {
@@ -63,7 +59,7 @@
                                                 Case number
                                             </th>
                                             <th role="columnheader" scope="col" tabindex="0" aria-colindex="2" aria-sort="none" class="">
-                                                Campaign Type
+                                                Creditor
                                             </th>
                                             <th role="columnheader" scope="col" tabindex="0" aria-colindex="3" aria-sort="none" class="">
                                                 Date created
@@ -97,10 +93,18 @@
                                                         <a href="/Invoice/@invoice.ID">
                                                             @invoice.Attributes.ReferenceId
                                                         </a>
-                                                        <!---->
                                                     </td>
                                                     <td aria-colindex="2" role="cell" class="">
-                                                        @invoice.Attributes.CurrentProduct.ToString()
+                                                        @if (invoice.CreditorID.HasValue)
+                                                        {
+                                                            <a href="/Creditor/@invoice.CreditorID.Value">
+                                                                @invoice.CreditorID.Value
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>No creditor data</span>
+                                                        }
                                                     </td>
                                                     <td aria-colindex="3" role="cell" class="">
                                                         @invoice.Attributes.DateCreated.ToShortDateString()

@@ -14,6 +14,15 @@ namespace Likvido.API.Models
         [JsonProperty("attributes")]
         public AttribtueModel Attributes { get; set; } = default;
 
+        [JsonProperty("relationships")]
+        public RelationshipsClass Relationships { get; set; } = default;
+
+        /// <summary>
+        /// Extension method for getting DebtorID
+        /// </summary>
+        public int? DebtorID { get => this.Relationships?.debtor?.Data?.Id; }
+        public int? CreditorID { get => this.Relationships?.creditor?.Data?.Id; }
+
         public class AttribtueModel
         {
             [JsonProperty("dateCreated")]
@@ -87,7 +96,31 @@ namespace Likvido.API.Models
 
             [JsonProperty("currentProduct")]
             public Schemas.CampaignType CurrentProduct {get;set;} = default;
-
         }
+
+        public class RelationshipsClass
+        {
+            [JsonProperty("debtor")]
+            public InvoiceResponseModel.RelatioshipsItem debtor { get; set; } = default;
+            [JsonProperty("creditor")]
+            public InvoiceResponseModel.RelatioshipsItem creditor { get; set; } = default;
+            
+        }
+
+        public class RelatioshipsItem
+        {
+            [JsonProperty("data")]
+            public RelatioshipsData Data { get; set; } = default;
+        }
+
+        public class RelatioshipsData
+        {
+            [JsonProperty("data")]
+            public string Data { get; set; } = default;
+            [JsonProperty("id")]
+            public int Id { get; set; } = default;
+        }
+        
+        
     }
 }

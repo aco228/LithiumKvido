@@ -1,0 +1,94 @@
+﻿@page "/Creditor/{CreditorId}"
+
+<h3>Creditor</h3>
+
+
+@if (this._errorWithParameter)
+{
+    <strong>Error with provided ID</strong>
+}
+else if (this._creditorsResponse == null)
+{
+    <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+}
+else if (this._creditorsResponse.IsSuccess == false)
+{
+    <strong>Error loading this Creditor informations</strong>
+}
+else
+{
+<div class="row">
+    <div class="col-xl-6">
+        <section class="card">
+            <header class="card-header">
+                <h2 class="card-title">Basic data</h2>
+
+            </header>
+
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-12">
+                                <b>Basic data on case</b>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Company name</div>
+                            <div class="col-sm-6"> @_creditorsResponse.Data.Attribute.CompanyName</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Address</div>
+                            <div class="col-sm-6"> @_creditorsResponse.Data.Attribute.Address</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Email</div>
+                            <div class="col-sm-6"> @_creditorsResponse.Data.Attribute.OfficeEmail</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Office phone</div>
+                            <div class="col-sm-6"> @_creditorsResponse.Data.Attribute.OfficePhone</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Slug</div>
+                            <div class="col-sm-6"> @_creditorsResponse.Data.Attribute.Slug</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Country</div>
+                            <div class="col-sm-6"> @_creditorsResponse.Data.Attribute.Country</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Terms accepted label</div>
+                            <div class="col-sm-6"> @_creditorsResponse.Data.Attribute.TermsAcceptedLabel</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+}
+
+@inject CreditorsService CreditorsService
+@code {
+    
+    [Parameter] public string CreditorId { get; set; }
+    bool _errorWithParameter = false;
+    CreditorResponse _creditorsResponse = null;
+
+    protected override async  Task OnInitializedAsync()
+    {
+        int id;
+        if (!int.TryParse(this.CreditorId, out id))
+        {
+            this._errorWithParameter = true;
+            this.StateHasChanged();
+            return;
+        }
+        
+        this._creditorsResponse = await CreditorsService.Get(id); 
+    }
+
+}
