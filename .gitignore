@@ -1,0 +1,47 @@
+#Ignore thumbnails created by windows
+Thumbs.db
+
+#Ignore Visual Studio built files
+*.obj
+*.exe
+*.pdb
+*.user
+*.aps
+*.pch
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.cache
+*.ilk
+*.log
+*.dll
+*.lib
+*.sbr
+~*
+*.tmp
+obj
+.vs/
+
+#Binary files
+**/bin/*
+!**/bin/*.dll.refresh
+
+#Ignore NuGet packages
+packages/
+
+#Ignore project specific temporary files
+Lib/Bridge.*
+Lib/*.lnk
+
+#Ignore embedded archives
+*.zip
+
+#Setup Files
+*.msi
+Code/Client/Setup/Setup/Express/SingleImage/LogFiles/
+Code/Client/Setup/Setup/Express/SingleImage/Reports/

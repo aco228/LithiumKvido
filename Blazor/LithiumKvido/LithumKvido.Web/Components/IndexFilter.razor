@@ -1,0 +1,125 @@
+﻿@namespace LithumKvido.Components
+
+<section class="card filters" id="filter">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-xl-7">
+                <div class="row">
+                    <div class="col-sm-7  margin-lg-bottom-15">
+                        <input autofocus="autofocus" name="Query" model="Query" placeholder="Search for invoice ..." type="text" class="form-control">
+                    </div>
+                    <div class="col-sm-5 margin-lg-bottom-15">
+                        <select class="s2" multiple="true" model="SearchModes">
+                            @foreach (int e in Enum.GetValues(typeof(Schemas.InvoiceSearchMode)))
+                            {
+                                <option value="@e">@(EnumHelpers.GetEnumName<Schemas.InvoiceSearchMode>(e))</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-5">
+                <div class="d-flex flex-wrap justify-content-between">
+                    <div class="col">
+                        <button type="button" id="openFilters" class="btn btn-default btn-filter-collapse collapsed" @onclick="OnAppendFiltersClick" style="color: #b7b7b7;">
+                            @(_areFiltersHidden ? "See all filters" : "Hide all filters")
+                            <i class="fas fa-chevron-@(_areFiltersHidden ? "down" : "up")" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <div class="d-flex align-items-center flex-wrap justify-content-end flex-grow-1">
+                        <button type="button" class="btn btn-primary btn-apply-filter flex-al" @onclick="OnFilterBtn">
+                            Apply filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div style="display: @string.Format(_areFiltersHidden ? "none" : "block")">
+            <div class="row">
+                <div class="col-xl-3 col-lg-6">
+                    <label>
+                        Select stage:
+                    </label>
+                    <select class="s2" multiple="true" model="States">
+                        @foreach (int e in Enum.GetValues(typeof(Schemas.InvoiceState)))
+                        {
+                            <option value="@e">@(EnumHelpers.GetEnumName<Schemas.InvoiceState>(e))</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-xl-3 col-lg-6">
+                    <label>
+                        <font style="vertical-align: inherit;">
+                            <font style="vertical-align: inherit;">Type of customer:</font>
+                        </font>
+                    </label>
+
+                    <select class="s2" multiple="true" model="DebtorTypes">
+                        @foreach (int e in Enum.GetValues(typeof(Schemas.LegalEntityType)))
+                        {
+                            <option value="@e">@(EnumHelpers.GetEnumName<Schemas.LegalEntityType>(e))</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-xl-3 col-lg-6">
+                    <label>
+                        From creation date:
+                    </label>
+                    <input id="fromCreationDate"  class="datetimepicker form-control" model="DateFrom" type="text" >
+                </div>
+                <div class="col-xl-3 col-lg-6">
+                    <label>
+                        To creation date:
+                    </label>
+                    <input id="toCreationDate"  class="datetimepicker form-control" model="DateTo" type="text" >
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-4 col-lg-6 mt-3">
+                    <label>
+                        Current flow:
+                    </label>
+
+                    <select class="s2" multiple="true" placeholder="SearchModes">
+                        @foreach (int e in Enum.GetValues(typeof(Schemas.InvoiceState)))
+                        {
+                            <option value="@e">@(EnumHelpers.GetEnumName<Schemas.InvoiceState>(e))</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+@inject IJSRuntime JsRuntime
+
+@code{
+
+    [Parameter] 
+    public EventCallback<InvoiceFilterModel> OnFilterSelectedCallback { get; set; }
+    
+    bool _areFiltersHidden = true;
+
+
+    private void OnAppendFiltersClick()
+    {
+        if (_areFiltersHidden)
+            _areFiltersHidden = false;
+        else
+            _areFiltersHidden = true;
+
+        this.StateHasChanged();
+    }
+
+    async Task OnFilterBtn()
+    {
+        InvoiceFilterModel model = await JsRuntime.InvokeAsync<InvoiceFilterModel>("pageManager.call", "index", "getFilterData");
+        await OnFilterSelectedCallback.InvokeAsync(model);
+    }
+
+}

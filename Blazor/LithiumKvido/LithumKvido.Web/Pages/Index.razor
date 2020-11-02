@@ -1,0 +1,231 @@
+﻿@page "/"
+
+<section class="section">
+    <div class="container container-with-top ">
+        <div id="content"></div>
+        <div>
+
+            <IndexFilter OnFilterSelectedCallback="FilterData"/>
+
+            <div class="b-overlay-wrap position-relative">
+                <section class="card">
+                    <div class="card-body">
+                        <div id="actionButton" class="float-sm-right mb-3 text-right">
+                            <div class="dropdown b-dropdown m-md-2 btn-group" id="__BVID__7">
+                                <a href="/NewInvoice">
+                                    <button aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-primary">
+                                        <span class="action-button-text">
+                                            Create new invoice
+                                        </span>
+                                    </button>
+                                </a>
+                                <button aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-primary" style="margin-left:10px;" @onclick="OnRefreshClick">
+                                    <span class="action-button-text">
+                                        Refresh all
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+
+                            @if (_isLoading)
+                            {
+                                <div class="indexMessageBox">
+                                    <div class="messageHolder">
+                                        <strong>Loading, please wait..</strong>
+                                    </div>
+                                </div>
+                            }
+                            else if (this._invoiceData.IsSuccess == false)
+                            {
+                                <div class="indexMessageBox">
+                                    <div class="messageHolder">
+                                        <strong style="color:red">Server error, please try again later</strong>
+                                    </div>
+                                </div>
+                            }
+                            else if (this._invoiceData.Data.Count == 0)
+                            {
+                                <div class="indexMessageBox">
+                                    <div class="messageHolder">
+                                        <strong>No records, try with different filters</strong>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="table-responsive">
+                                    <table id="invoiceTable" role="table" aria-busy="false" aria-colcount="8" class="table b-table table-striped table-bordered table-sm b-table-no-border-collapse">
+                                        <thead role="rowgroup" class="">
+                                        <tr role="row" class="">
+                                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="1" aria-sort="none" class="" style="width: 12%;">
+                                                Case number
+                                            </th>
+                                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="2" aria-sort="none" class="">
+                                                Campaign Type
+                                            </th>
+                                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="3" aria-sort="none" class="">
+                                                Date created
+                                            </th>
+                                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="4" aria-sort="none" class="">
+                                                Due date
+                                            </th>
+                                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="6" aria-sort="none" class="" style="width: 15%;">
+                                                Invoice State
+                                            </th>
+                                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="5" aria-sort="none" class="">
+                                                Net Ammount
+                                            </th>
+                                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="7" aria-sort="none" class="">
+                                                Gross Amount
+                                            </th>
+                                            <th role="columnheader" scope="col" tabindex="0" aria-colindex="8" aria-sort="descending" class="">
+                                                Creation date
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody role="rowgroup">
+
+
+                                        @if (this._invoiceData != null && this._invoiceData.Data != null && this._invoiceData.Data.Count > 0)
+                                        {
+                                            foreach (var invoice in this._invoiceData.Data)
+                                            {
+                                                <tr role="row" class="">
+                                                    <td aria-colindex="1" role="cell" class="">
+                                                        <a href="/Invoice/@invoice.ID">
+                                                            @invoice.Attributes.ReferenceId
+                                                        </a>
+                                                        <!---->
+                                                    </td>
+                                                    <td aria-colindex="2" role="cell" class="">
+                                                        @invoice.Attributes.CurrentProduct.ToString()
+                                                    </td>
+                                                    <td aria-colindex="3" role="cell" class="">
+                                                        @invoice.Attributes.DateCreated.ToShortDateString()
+                                                    </td>
+                                                    <td aria-colindex="4" role="cell" class="">
+                                                        @invoice.Attributes.DueDate.ToShortDateString()
+                                                    </td>
+                                                    <td aria-colindex="6" role="cell" class="">
+                                                        @invoice.Attributes.InvoiceState.ToString()
+                                                    </td>
+                                                    <td aria-colindex="5" role="cell" class="">
+                                                        @invoice.Attributes.NetAmount
+                                                    </td>
+                                                    <td aria-colindex="7" role="cell" class="">
+                                                        @invoice.Attributes.GrossAmount @invoice.Attributes.Currency
+                                                    </td>
+                                                    <td aria-colindex="8" role="cell" class="">
+                                                        @invoice.Attributes.DateCreated.ToShortDateString()
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div id="invoiceTableFooter" class="row no-gutters">
+                                    <div class="row no-gutters mr-2">
+                                    </div>
+                                    <div class="row no-gutters">
+                                        <div class="mt-2 mr-4">
+                                            <b>
+                                                Total gross
+                                            </b>
+                                            @_totalGross @_currency
+                                        </div>
+                                        <div class="mt-2">
+                                            <b>
+                                                Total net:
+                                            </b>
+                                            @_totalNet @_currency
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</section>
+
+@inject InvoicesService InvoiceService
+@inject IJSRuntime JsRuntime
+
+@code{
+
+
+    InvoicesResponse _invoiceData = null;
+    bool _isLoading = false;
+    int _totalGross = 0;
+    int _totalNet = 0;
+    string _currency = "EUR"; // default currency
+
+    protected override async Task OnInitializedAsync()
+    {
+        await this.RefreshData();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("pageManager.call", "index");
+        base.OnAfterRenderAsync(firstRender);
+    }
+
+    // Refresh all data (without filters)
+    async Task RefreshData()
+    {
+        if (_isLoading)
+            return;
+
+        this._isLoading = true;
+        this.StateHasChanged();
+
+        this._invoiceData = await InvoiceService.GetAll();
+        this._isLoading = false;
+        this.CalculateInvoices();
+        this.StateHasChanged();
+    }
+
+    // On RefreshAll button click
+    async Task OnRefreshClick()
+    {
+        await RefreshData();
+    }
+
+    // Filter data, called from filter button
+    async Task FilterData(InvoiceFilterModel model)
+    {
+        if (_isLoading)
+            return;
+
+        this._isLoading = true;
+        this.StateHasChanged();
+
+        this._invoiceData = await InvoiceService.Get(model);
+        this._isLoading = false;
+        this.CalculateInvoices();
+        this.StateHasChanged();
+    }
+
+    // calculate data received from server
+    void CalculateInvoices()
+    {
+        if (this._invoiceData.Data == null)
+            return;
+        this._totalGross = 0;
+        this._totalNet = 0;
+        foreach (var invoice in this._invoiceData.Data)
+        {
+            _totalGross += (int) invoice.Attributes.GrossAmount;
+            _totalNet += (int) invoice.Attributes.NetAmount;
+        }
+    }
+
+}

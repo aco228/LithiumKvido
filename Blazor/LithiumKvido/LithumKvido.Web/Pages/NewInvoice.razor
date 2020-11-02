@@ -1,0 +1,299 @@
+﻿@page "/NewInvoice"
+@using System.Runtime.InteropServices.WindowsRuntime
+
+<main class="content-body card-margin" role="main">
+    @if (_isLoading)
+    {
+        <div class="overlay">
+            <div class="overlayText">Inserting.. please wait</div>
+        </div>
+    }
+    <section class="section">
+        <div class="container container-with-top ">
+            <div id="content"></div>
+            <section class="card add-new-invoice">
+                <div class="card-body">
+                    <div class="credit-data-title">
+                        <h2>
+                            Create new invoice
+                        </h2>
+                    </div>
+                    <div style="display:@(this._sectionNum == 1 ? "block" : "none")">
+                        <div class="form-bordered">
+                            <div>
+                                <h3 class="col-lg-3 text-lg-right">
+                                    Invoice informations
+                                </h3>
+
+
+                                <div class="form-group row">
+                                    <label class="col-lg-3 control-label text-lg-right pt-2"> Date </label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="date" @bind="NewModel.Date">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 control-label text-lg-right pt-2"> DueDate </label>
+                                    <div class="col-lg-6">
+                                        <input class="form-control" type="date" @bind="NewModel.DueDate">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <!--!-->
+                                    <label class="col-lg-3 control-label text-lg-right pt-2">
+                                        Campaign initial request
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select class="form-control" @bind="_enumCampaignInitialRequest">
+                                            @foreach (int e in Enum.GetValues(typeof(Schemas.CampaignType)))
+                                            {
+                                                <option value="@e">@(EnumHelpers.GetEnumName<Schemas.CampaignType>(e))</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-bordered">
+                            <div>
+                                <h3 class="col-lg-3 text-lg-right">
+                                    Debtor informations
+                                </h3>
+                                <InvoiceInput Title="First Name" @bind-Value="NewModel.Debtor.FirstName"/>
+                                <InvoiceInput Title="Last Name" @bind-Value="NewModel.Debtor.LastName"/>
+                                <InvoiceInput Title="Email" @bind-Value="NewModel.Debtor.Email"/>
+                                <InvoiceInput Title="Phone" @bind-Value="NewModel.Debtor.Phone"/>
+                                <InvoiceInput Title="Address" @bind-Value="NewModel.Debtor.Address"/>
+                                <InvoiceInput Title="Zip code" @bind-Value="NewModel.Debtor.ZipCode"/>
+                                <InvoiceInput Title="City" @bind-Value="NewModel.Debtor.City"/>
+                                <div class="form-group row">
+                                    <label class="col-lg-3 control-label text-lg-right pt-2">
+                                        Debtor Type
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select @bind="_enumDebtorType" class="form-control">
+                                            @foreach (int e in Enum.GetValues(typeof(Schemas.LegalEntityType)))
+                                            {
+                                                <option value="@e">@(EnumHelpers.GetEnumName<Schemas.LegalEntityType>(e))</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:@(this._sectionNum == 2 ? "block" : "none")">
+                        <h3 class="col-lg-3 text-lg-right mt-50">
+                            Lines
+                        </h3>
+                        <div class="form-bordered">
+                        <div class="mt-4">
+                            <div class="row">
+                                <div class="col-lg-9" style="margin: auto;">
+                                    <table class="table table-responsive-xl table-bordered invoice-elements-table table-striped table-sm mb-0">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 40%;"> Description </th>
+                                            <th style="width: 15%;"> Quantity </th>
+                                            <th style="width: 15%;"> Price before VAT </th>
+                                            <th style="width: 10%;"> VAT rate </th>
+                                            <th style="width: 10%;"> Total </th>
+                                            <th style="width: 10%;"> Remove </th>
+                                        </tr>
+                                        </thead>
+                                        @for (var i = 0; i < this.NewModel.Lines.Count; i++)
+                                        {
+                                            var line = this.NewModel.Lines[i];
+                                            <tr>
+                                                <td>
+                                                    <div>
+                                                        <input type="text" autocomplete="off" class="form-control" @bind="line.Description">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <input type="number" autocomplete="off" class="form-control form-control" @bind="line.Quantity">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <input type="number" autocomplete="off" class="form-control form-control" @bind="line.UnitNetPrice">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="0" class="form-control input-without-scroller" style="padding-left: 10px;" @bind="line.VatRate">
+                                                </td>
+                                                <td></td>
+                                                <td>
+                                                    @if (i != 0)
+                                                    {
+                                                        <div class="remove-line" @onclick="@(e => this.NewModel.Lines.Remove(line))">
+                                                            <i class="fas fa-trash red" aria-hidden="true"></i>
+                                                        </div>
+                                                    }
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    </table>
+
+                                    <div class="row">
+                                        <a class="mt-2 ml-3 font-size-12 btn btn-default right pull-right" style="margin-left: 15px;" @onclick="CreateNewLine">
+                                            New line
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(_errorMessage))
+                {
+                    <div class="row" style="background: #fff1f1; border-radius: 9px; margin: 5px; margin-top: 10px; padding: 5px;">
+                        <div class="col-lg-9">
+                            <strong style="color:red">@_errorMessage</strong>
+                        </div>
+                    </div>
+                }
+
+
+                <div class="row">
+                    <div class="col-lg-9">
+                        @if (_sectionNum == 2)
+                        {
+                            <button type="button" class="btn btn-default float-left mt-4" @onclick="OnPreviousSection">
+                                <i class="fas fa-long-arrow-alt-left mr-2 purple" aria-hidden="true"></i>
+                                Previous
+                            </button>
+                        }
+                        @if (_sectionNum == 1)
+                        {
+                            <button type="button" class="btn btn-primary float-right mt-4" @onclick="OnNextSection">
+                                Continue
+                            </button>
+                        }
+                        @if (_sectionNum == 2)
+                        {
+                            <button type="button" class="btn btn-primary float-right mt-4" @onclick="OnSubmit">
+                                Submit
+                            </button>
+                        }
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </section>
+</main>
+
+@* <button @onclick="Test">test</button> *@
+
+@inject IJSRuntime JsRuntime
+@inject InvoicesService InvoiceService
+@inject NavigationManager NavigationManager
+
+@code {
+    
+    InvoiceCreateModel NewModel { get; set; } = new InvoiceCreateModel();
+    int _sectionNum = 1;
+    int _enumCampaignInitialRequest = 1;
+    int _enumDebtorType = 1;
+    string _errorMessage = "";
+    bool _isLoading = false;
+
+    protected override void OnInitialized()
+    {
+        // add default line
+        this.NewModel.Lines.Add(new InvoiceCreateModel.LineModel());
+        this.StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("pageManager.call", "ninvoice");
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    void Test()
+    {
+        int a = 0;
+    }
+
+    void OnPreviousSection()
+    {
+        _sectionNum = 1;
+        this.StateHasChanged();
+    }
+
+    void OnNextSection()
+    {
+        _sectionNum = 2;
+        this.StateHasChanged();
+    }
+
+    // do a simple validation of imput data
+    bool ValidationHasErrors()
+    {
+        // case when there is unlogical overlaping
+        if (NewModel.DueDate < NewModel.Date)
+        {
+            _errorMessage = "Error in comparison with Date and Due date";
+            return true;
+        }
+
+        // check cases when lines does not have description
+        foreach (var line in NewModel.Lines)
+            if (string.IsNullOrEmpty(line.Description))
+            {
+                _errorMessage = "One of the lines does not have description";
+                return true;
+            }
+        
+        return false;
+    }
+
+    // on btn submit, send data to server
+    async Task OnSubmit()
+    {
+        if (_isLoading)
+            return;
+        
+        if (ValidationHasErrors())
+        {
+            this.StateHasChanged();
+            return;
+        }
+
+        // quick fix due there is some error with binding enums to selects
+        this.NewModel.CampaignInitialRequest = (Schemas.CampaignType) this._enumCampaignInitialRequest;
+        this.NewModel.Debtor.DebtorType = (Schemas.LegalEntityType) this._enumDebtorType;
+        this._isLoading = true;
+        this.StateHasChanged();
+        
+        var result = await this.InvoiceService.Create(this.NewModel);
+        
+        if (!result.IsSuccess)
+        {
+            this._isLoading = false;
+            _errorMessage = "Server error";
+            this.StateHasChanged();
+            return;
+        }
+        NavigationManager.NavigateTo("/");
+        
+    }
+
+    
+    void CreateNewLine()
+    {
+        this.NewModel.Lines.Add(new InvoiceCreateModel.LineModel());
+        this.StateHasChanged();
+    }
+
+
+}

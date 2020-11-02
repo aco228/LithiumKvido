@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22">
+  <g id="ic_navigation_help" transform="translate(-24 -21)">
+    <rect id="Rectangle_3328" data-name="Rectangle 3328" width="22" height="22" transform="translate(24 21)" fill="none"/>
+    <path id="question" d="M11.183,19.507a1.075,1.075,0,1,1,1.075-1.075A1.075,1.075,0,0,1,11.183,19.507Zm1.7-6.834a1.08,1.08,0,0,0-.627.977v.483a1.075,1.075,0,1,1-2.15,0v-.483a3.238,3.238,0,0,1,1.876-2.93,3.513,3.513,0,0,0,1.886-2.5,2.687,2.687,0,0,0-5.374,0,1.075,1.075,0,1,1-2.15,0,4.837,4.837,0,0,1,9.673,0,5.6,5.6,0,0,1-3.135,4.452Zm0,0" transform="translate(23.971 20.727)" fill="#7864ff" stroke="#7864ff" stroke-width="0.6"/>
+  </g>
+</svg>

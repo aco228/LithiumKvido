@@ -1,0 +1,22 @@
+﻿@namespace LithumKvido.Components
+
+<div class="form-group row">
+    <label class="col-lg-3 control-label text-lg-right pt-2">
+        @Title
+    </label>
+    <div class="col-lg-6">
+        <input class="form-control" type="text" value="@Value" @oninput="OnInputChange">
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; }
+    [Parameter] public string Value { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+    
+    private async Task OnInputChange(ChangeEventArgs args )
+    {
+        Value = (string)args.Value;
+        await ValueChanged.InvokeAsync(Value);
+    }
+}

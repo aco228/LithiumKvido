@@ -1,0 +1,187 @@
+﻿@page "/Invoice/{invoiceID}"
+<h3>Invoice</h3>
+
+<main>
+<section>
+
+@if (this._invoiceData == null)
+{
+    <strong>Loading..</strong>   
+}
+else if (this._invoiceData.IsSuccess == false)
+{
+    <strong>Error loading this invoice</strong>
+}
+else
+{
+<div class="row">
+    <div class="col-xl-6">
+        <section class="card">
+            <header class="card-header">
+                <h2 class="card-title">Basic data</h2>
+
+            </header>
+
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-12">
+                                <b>Basic data on case</b>
+                            </div>
+
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Reference number:</div>
+                            <div class="col-sm-6">@_invoiceData.Data.Attributes.ReferenceId</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Date created:</div>
+                            <div class="col-sm-6"> @_invoiceData.Data.Attributes.DateCreated.ToShortDateString()</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Date updated:</div>
+                            <div class="col-sm-6"> @_invoiceData.Data.Attributes.DateUpdated.ToShortDateString()</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Expiration date:</div>
+                            <div class="col-sm-6"> @_invoiceData.Data.Attributes.InvoiceExpirationDate.ToShortDateString()</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Currency:</div>
+                            <div class="col-sm-6"> @_invoiceData.Data.Attributes.Currency</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Internal Comments:</div>
+                            <div class="col-sm-6"> @_invoiceData.Data.Attributes.InternalComments</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Invoice Comments:</div>
+                            <div class="col-sm-6"> @_invoiceData.Data.Attributes.InvoiceComments</div>
+                        </div>
+                        <div class="row margin-bottom-8">
+                            <div class="col-sm-6">Creditor reference:</div>
+                            <div class="col-sm-6"> @_invoiceData.Data.Attributes.CreditorReference</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="col-xl-6">
+
+
+        <div class="row">
+            <div class="col-lg-6">
+                <section class="card">
+                    <div class="card-body h-125 d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title word-break">
+                                @_invoiceData.Data.Attributes.InvoiceState.ToString()
+                            </h3>
+                            <strong class="word-break">Invoice state</strong>
+                        </div>
+                        <img src="https://app.likvido.dk/Content/images/pages/invoice/Status.png" width="55" class="ml-2">
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-6">
+                <section class="card">
+                    <div class="card-body h-125 d-flex justify-content-between align-items-center">
+                        <i class="fa fa-info-circle position-absolute right-10 top-10" data-toggle="tooltip" data-placement="top" title="" aria-hidden="true" data-original-title="Case is an invoice that is sent to customer"></i><span class="sr-only">Case is an invoice that is sent to customer</span>
+                        <div>
+                            <h3 class="card-title word-break">
+                                @_invoiceData.Data.Attributes.InitialCampaignTypeRequest.ToString()
+                            </h3>
+                            <strong class="word-break">Campaign Type</strong>
+                        </div>
+                        <img src="https://app.likvido.dk/Content/images/pages/invoice/Stadie.png" width="55" class="ml-2">
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-6">
+                <section class="card">
+                    <div class="card-body h-125 d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title word-break">
+                                @_invoiceData.Data.Attributes.NetAmount @_invoiceData.Data.Attributes.Currency
+                            </h3>
+
+                            <strong class="word-break">Net Ammount</strong>
+                        </div>
+                        <img src="https://app.likvido.dk/Content/images/pages/invoice/Debt.png" width="55" class="ml-2">
+
+                    </div>
+                </section>
+            </div>
+
+
+            <div class="col-lg-6">
+                <section class="card">
+                    <div class="card-body h-125 d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class="card-title word-break">
+                                @_invoiceData.Data.Attributes.GrossAmount @_invoiceData.Data.Attributes.Currency
+                            </h3>
+
+                            <strong class="word-break">Gross Ammount</strong>
+                        </div>
+                        <img src="https://app.likvido.dk/Content/images/pages/invoice/Indbetalinger.png" width="55" class="ml-2">
+                    </div>
+
+
+                </section>
+            </div>
+
+            <div class="col-lg-6">
+                <section class="card">
+                    <div class="card-body h-125 d-flex justify-content-between align-items-center">
+                        <i class="fa fa-info-circle position-absolute right-10 top-10" data-toggle="tooltip" data-placement="top" title="" aria-hidden="true" data-original-title="After the expiration date you can no longer demand payment for invoice. The expiration date can be extended in up to 10 years at the enforcement court though."></i><span class="sr-only">After the expiration date you can no longer demand payment for invoice. The expiration date can be extended in up to 10 years at the enforcement court though.</span>
+                        <div>
+                            <h3 class="card-title word-break">@_invoiceData.Data.Attributes.InvoiceExpirationDate.ToShortDateString()</h3>
+
+                            <strong class="word-break">Expiration date</strong>
+                        </div>
+                        <img src="https://app.likvido.dk/Content/images/pages/invoice/DebtAge.png" width="55" class="ml-2">
+                    </div>
+                </section>
+            </div>
+
+            <div class="col-lg-6">
+                <section class="card">
+                    <div class="card-body h-125 d-flex justify-content-between align-items-center">
+                        <i class="fa fa-info-circle position-absolute right-10 top-10" data-toggle="tooltip" data-placement="top" title="" aria-hidden="true" data-original-title="A foundation means that the customer is now bound pay. This could've been happening at the enforcement court, in a trial or a voluntarily agreement from the customer"></i><span class="sr-only">A foundation means that the customer is now bound pay. This could've been happening at the enforcement court, in a trial or a voluntarily agreement from the customer</span>
+                        <div>
+                            <h3 class="card-title word-break">
+                                @(_invoiceData.Data.Attributes.InvoiceFoundation ? "Yes" : "No")
+                            </h3>
+                            <strong class="word-break">Foundation</strong>
+                        </div>
+                        <img src="https://app.likvido.dk/Content/images/pages/invoice/Fundament.png" width="55" class="ml-2">
+                    </div>
+                </section>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+}
+</section>
+</main>
+
+@inject InvoicesService InvoiceService
+@code {
+    [Parameter] public string InvoiceId { get; set; }
+    InvoiceResponse _invoiceData = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        this._invoiceData = await InvoiceService.Get(this.InvoiceId);
+    }
+
+
+}

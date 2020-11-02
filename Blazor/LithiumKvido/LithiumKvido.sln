@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Likvido.API", "Likvido.API\Likvido.API.csproj", "{AA29D583-E63D-4460-B153-55ACFF33769A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LithumKvido.TestsConsole", "LithumKvido.TestsConsole\LithumKvido.TestsConsole.csproj", "{C380D450-690C-462D-84E1-4145870F7E47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LithumKvido.Web", "LithumKvido.Web\LithumKvido.Web.csproj", "{0D0D3D8B-5A16-409A-9779-F1AC2F071D2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA29D583-E63D-4460-B153-55ACFF33769A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA29D583-E63D-4460-B153-55ACFF33769A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA29D583-E63D-4460-B153-55ACFF33769A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA29D583-E63D-4460-B153-55ACFF33769A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C380D450-690C-462D-84E1-4145870F7E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C380D450-690C-462D-84E1-4145870F7E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C380D450-690C-462D-84E1-4145870F7E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C380D450-690C-462D-84E1-4145870F7E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D0D3D8B-5A16-409A-9779-F1AC2F071D2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D0D3D8B-5A16-409A-9779-F1AC2F071D2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D0D3D8B-5A16-409A-9779-F1AC2F071D2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D0D3D8B-5A16-409A-9779-F1AC2F071D2A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
